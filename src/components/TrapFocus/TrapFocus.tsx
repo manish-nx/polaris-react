@@ -60,8 +60,9 @@ export function TrapFocus({trapping = true, children}: TrapFocusProps) {
     }
 
     if (
+      event.target instanceof HTMLElement &&
       focusTrapWrapper.current !== event.target &&
-      !focusTrapWrapper.current.contains(event.target as Node)
+      !focusTrapWrapper.current.contains(event.target)
     ) {
       focusFirstFocusableNode(focusTrapWrapper.current);
     }

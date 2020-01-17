@@ -86,8 +86,8 @@ export function Month({
   }
 
   function renderWeek(day: Date, dayIndex: number) {
-    if (day == null) {
-      const lastDayOfMonth = new Date(year, (month as number) + 1, 0);
+    if (day == null && typeof month === 'number') {
+      const lastDayOfMonth = new Date(year, month + 1, 0);
       return (
         <Day key={dayIndex} onHover={onHover.bind(null, lastDayOfMonth)} />
       );

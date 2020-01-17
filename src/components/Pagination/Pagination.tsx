@@ -136,6 +136,7 @@ export function Pagination({
       nextButton
     );
 
+  const previousHandler = onPrevious || noop;
   const previousButtonEvents =
     previousKeys &&
     (previousURL || onPrevious) &&
@@ -147,11 +148,12 @@ export function Pagination({
         handler={
           previousURL
             ? handleCallback(clickPaginationLink('previousURL', node))
-            : handleCallback(onPrevious as () => void)
+            : handleCallback(previousHandler)
         }
       />
     ));
 
+  const nextHandler = onNext || noop;
   const nextButtonEvents =
     nextKeys &&
     (nextURL || onNext) &&
@@ -163,7 +165,7 @@ export function Pagination({
         handler={
           nextURL
             ? handleCallback(clickPaginationLink('nextURL', node))
-            : handleCallback(onNext as () => void)
+            : handleCallback(nextHandler)
         }
       />
     ));
@@ -214,3 +216,5 @@ function handleCallback(fn: () => void) {
     fn();
   };
 }
+
+function noop() {}

@@ -203,9 +203,7 @@ class DataTable extends React.PureComponent<CombinedProps, DataTableState> {
     } = this;
 
     if (condensed && table && scrollContainer && dataTable) {
-      const headerCells = table.querySelectorAll(
-        headerCell.selector,
-      ) as NodeListOf<HTMLElement>;
+      const headerCells = table.querySelectorAll(headerCell.selector);
 
       const firstVisibleColumnIndex = headerCells.length - 1;
       const tableLeftVisibleEdge = scrollContainer.scrollLeft;
