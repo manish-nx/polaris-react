@@ -180,6 +180,7 @@ describe('<TrapFocus />', () => {
       const event: Partial<FocusEvent> = {
         relatedTarget: externalDomNode,
         srcElement: externalDomNode,
+        target: document.createElement('div'),
         preventDefault: () => {},
       };
       trapFocus.find(EventListener)!.trigger('handler', event);

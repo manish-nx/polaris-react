@@ -25,7 +25,7 @@ describe('<Image />', () => {
     });
 
     it('renders the crossOrigin', () => {
-      expect(image.find('img').prop('crossOrigin')).toBe('Anonymous');
+      expect(image.find('img').prop('crossOrigin')).toBe('anonymous');
     });
   });
 
