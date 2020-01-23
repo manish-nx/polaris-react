@@ -1,0 +1,30 @@
+shared:
+  node_container: &node_container
+    language: node_js
+    node_js:
+      - '10.13.0'
+    cache: yarn
+
+matrix:
+  include:
+    - <<: *node_container
+      name: 'Lint and tests'
+      script:
+        - yarn run check:ci
+        - ./node_modules/.bin/codecov
+        - yarn run build-shrink-ray
+
+    - <<: *node_container
+      name: 'Percy'
+      script:
+        - yarn run test:percy
+
+    - <<: *node_container
+      name: 'Chroma'
+      script:
+        - yarn run chromatic publish --build-script-name='storybook:build'
+
+    - <<: *node_container
+      name: 'Accessibility Tests'
+      script:
+        - yarn run test:a11y
