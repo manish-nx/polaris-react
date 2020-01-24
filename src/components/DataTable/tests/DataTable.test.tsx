@@ -121,7 +121,23 @@ describe('<DataTable />', () => {
       expect(totalsRow.text()).toContain(totals.join(''));
     });
 
-    it('sets the content of the first total Cell to the totals row heading', () => {
+    it('sets the content of the first total Cell to the singular totals row heading', () => {
+      const totals = [''];
+      const dataTable = mountWithAppProvider(
+        <DataTable {...defaultProps} totals={totals} />,
+      );
+
+      expect(dataTable.find('thead tr')).toHaveLength(2);
+
+      const firstTotalCell = dataTable
+        .find(Cell)
+        .filterWhere((cell) => cell.prop('total') === true)
+        .first();
+
+      expect(firstTotalCell.prop('content')).toBe('Total');
+    });
+
+    it('sets the content of the first total Cell to the plural totals row heading', () => {
       const totals = ['', '', ''];
       const dataTable = mountWithAppProvider(
         <DataTable {...defaultProps} totals={totals} />,
@@ -181,6 +197,58 @@ describe('<DataTable />', () => {
       );
 
       expect(dataTable.find('tfoot')).toHaveLength(1);
+    });
+  });
+
+  describe('totalsMarkupLabel', () => {
+    it('sets the content of the first total Cell to the singular custom row heading', () => {
+      const totals = [''];
+      const totalsMarkupLabel = {
+        singular: 'Singular',
+        plural: 'Plural',
+      };
+
+      const dataTable = mountWithAppProvider(
+        <DataTable
+          {...defaultProps}
+          totals={totals}
+          totalsMarkupLabel={totalsMarkupLabel}
+        />,
+      );
+
+      expect(dataTable.find('thead tr')).toHaveLength(2);
+
+      const firstTotalCell = dataTable
+        .find(Cell)
+        .filterWhere((cell) => cell.prop('total') === true)
+        .first();
+
+      expect(firstTotalCell.prop('content')).toBe('Singular');
+    });
+
+    it('sets the content of the first total Cell to the plural custom row heading', () => {
+      const totals = ['', '', ''];
+      const totalsMarkupLabel = {
+        singular: 'Singular',
+        plural: 'Plural',
+      };
+
+      const dataTable = mountWithAppProvider(
+        <DataTable
+          {...defaultProps}
+          totals={totals}
+          totalsMarkupLabel={totalsMarkupLabel}
+        />,
+      );
+
+      expect(dataTable.find('thead tr')).toHaveLength(2);
+
+      const firstTotalCell = dataTable
+        .find(Cell)
+        .filterWhere((cell) => cell.prop('total') === true)
+        .first();
+
+      expect(firstTotalCell.prop('content')).toBe('Plural');
     });
   });
 
