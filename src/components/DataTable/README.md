@@ -174,6 +174,34 @@ function DataTableFooterExample() {
 }
 ```
 
+### Data table with custom totals labels
+
+Use to pass in custom totals labels for both singular and plural amount of totals items. The plurality is based on the amount of items passed in for totals.
+
+```jsx
+function DataTableExample() {
+  const rows = [['Emerald Silk Gown', '$875.00']];
+
+  return (
+    <Page title="Sales by product">
+      <Card>
+        <DataTable
+          columnContentTypes={['text', 'text']}
+          headings={['Products']}
+          rows={rows}
+          totals={['', '$155,830.00']}
+          totalsMarkupLabel={{
+            singular: 'Singular',
+            plural: 'Plural',
+          }}
+          showTotalsInFooter
+        />
+      </Card>
+    </Page>
+  );
+}
+```
+
 ### Data table with totals in footer
 
 Use to reposition the totals row in a more appropriate location based on the data stored in the
