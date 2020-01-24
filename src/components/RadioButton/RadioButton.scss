@@ -127,7 +127,7 @@
   }
 
   .Input {
-    &:focus {
+    &.keyFocused {
       + .Backdrop {
         @include focus-ring(
           $offset: var(--p-checkbox-radio-button-focus-ring-offset),
