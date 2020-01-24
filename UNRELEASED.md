@@ -8,12 +8,14 @@
 - Allow DataTable headers to be React Elements ([#2635](https://github.com/Shopify/polaris-react/pull/2635))
 - Added support for explicit order of items in `ActionMenu` ([2057](https://github.com/Shopify/polaris-react/pull/2057))
 - Made the `DataTable` horizontal `Navigation` optional ([#2647](https://github.com/Shopify/polaris-react/pull/2647))
+- Added optional `totalsMarkupLabel` prop to `DataTable` for custom **Totals** label content rendering ([#2660](https://github.com/Shopify/polaris-react/pull/2660))
 
 ### Bug fixes
 
 - Fixed scrolling with scrollbar not working in Popover when content changes on scroll ([#2627](https://github.com/Shopify/polaris-react/pull/2627))
 - Work around a build crash when using create-react-app due to a bug in css parsing in `postcss-custom-properties` ([#2643](https://github.com/Shopify/polaris-react/pull/2643))
 - Removed the `visited` CSS styling for tabs using the `url` prop ([#2639](https://github.com/Shopify/polaris-react/pull/2639))
+- Fixed plurality of **Totals** label content on the `DataTable` ([#2660](https://github.com/Shopify/polaris-react/pull/2660))
 
 ### Documentation
 
