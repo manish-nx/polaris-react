@@ -32,6 +32,11 @@ export interface DataTableProps {
   headings: React.ReactNode[];
   /** List of numeric column totals, highlighted in the table’s header below column headings. Use empty strings as placeholders for columns with no total. */
   totals?: TableData[];
+  /** Name of the totals label */
+  totalsMarkupLabel?: {
+    singular: string;
+    plural: string;
+  };
   /** Placement of totals row within table */
   showTotalsInFooter?: boolean;
   /** Lists of data points which map to table body rows. */
@@ -80,7 +85,6 @@ class DataTableInner extends React.PureComponent<
   private dataTable = React.createRef<HTMLDivElement>();
   private scrollContainer = React.createRef<HTMLDivElement>();
   private table = React.createRef<HTMLTableElement>();
-  private totalsRowHeading: string;
 
   private handleResize = debounce(() => {
     const {
@@ -102,12 +106,6 @@ class DataTableInner extends React.PureComponent<
 
   constructor(props: CombinedProps) {
     super(props);
-    const {
-      polaris: {intl},
-    } = props;
-    this.totalsRowHeading = intl.translate(
-      'Polaris.DataTable.totalsRowHeading',
-    );
   }
 
   componentDidMount() {
@@ -330,6 +328,30 @@ class DataTableInner extends React.PureComponent<
     );
   };
 
+  private totalsRowHeading = () => {
+    const {
+      polaris: {intl},
+      totals,
+      totalsMarkupLabel,
+    } = this.props;
+
+    if (!totals) {
+      return intl.translate('Polaris.DataTable.totalsRowHeading');
+    }
+
+    const totalsIsPlural = totals.length > 2;
+
+    if (totalsMarkupLabel) {
+      return totalsIsPlural
+        ? totalsMarkupLabel.plural
+        : totalsMarkupLabel.singular;
+    }
+
+    return totalsIsPlural
+      ? intl.translate('Polaris.DataTable.totalsRowHeading')
+      : intl.translate('Polaris.DataTable.totalRowHeading');
+  };
+
   private renderTotals = (total: TableData, index: number) => {
     const id = `totals-cell-${index}`;
     const {truncate = false, verticalAlign} = this.props;
@@ -338,7 +360,7 @@ class DataTableInner extends React.PureComponent<
     let contentType;
 
     if (index === 0) {
-      content = this.totalsRowHeading;
+      content = this.totalsRowHeading();
     }
 
     if (total !== '' && index > 0) {
