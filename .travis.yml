@@ -1,30 +1,38 @@
-shared:
-  node_container: &node_container
-    language: node_js
-    node_js:
-      - '10.13.0'
-    cache: yarn
+language: node_js
+node_js:
+  - '10.13.0'
+cache: yarn
 
-matrix:
+jobs:
   include:
-    - <<: *node_container
-      name: 'Lint and tests'
+    - name: 'Type Check'
       script:
-        - yarn run check:ci
-        - ./node_modules/.bin/codecov
-        - yarn run build-shrink-ray
+        - yarn run type-check
 
-    - <<: *node_container
-      name: 'Percy'
+    - name: 'Lint'
       script:
-        - yarn run test:percy
+        - yarn run lint
 
-    - <<: *node_container
-      name: 'Chroma'
+    - name: 'Unit Tests'
+      script:
+        - yarn run test --coverage
+        - yarn run codecov
+
+    - name: 'Shrink Ray'
+      script:
+        - yarn run storybook:build --quiet
+        - yarn run shrink-ray build --report-path="build/storybook/bundle-analysis/report.html" --repo="polaris-react" --sha="$TRAVIS_COMMIT" --baselineSha="$(git merge-base HEAD origin/master)"
+
+    - name: 'Percy'
+      script:
+        - yarn run storybook:build --quiet
+        - yarn run percy-storybook --build_dir="build/storybook/static"
+
+    - name: 'Chroma'
       script:
         - yarn run chromatic publish --build-script-name='storybook:build'
 
-    - <<: *node_container
-      name: 'Accessibility Tests'
+    - name: 'Accessibility Tests'
       script:
-        - yarn run test:a11y
+        - yarn run storybook:build --quiet
+        - node ./scripts/pa11y.js
